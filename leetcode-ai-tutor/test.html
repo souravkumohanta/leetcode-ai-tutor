@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeetCode AI Tutor - Tests</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      color: #2196F3;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+    
+    .test-section {
+      margin-bottom: 30px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .test-output {
+      background-color: #333;
+      color: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .success {
+      color: #4CAF50;
+    }
+    
+    .warning {
+      color: #FFC107;
+    }
+    
+    .error {
+      color: #F44336;
+    }
+    
+    .btn {
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>LeetCode AI Tutor - Tests</h1>
+  
+  <div class="test-section">
+    <h2>Test Configuration</h2>
+    <p>You can modify the test configuration in <code>test.js</code> to match your environment.</p>
+    <p>For testing the problem list fetching, you can run a local server with:</p>
+    <pre><code>python -m http.server</code></pre>
+    <p>This will serve the <code>sample-problems.json</code> file at <code>http://localhost:8000/sample-problems.json</code>.</p>
+  </div>
+  
+  <div class="test-section">
+    <h2>Run Tests</h2>
+    <button id="runAllBtn" class="btn btn-primary">Run All Tests</button>
+    <button id="runStorageBtn" class="btn btn-secondary">Test Storage</button>
+    <button id="runTimerBtn" class="btn btn-secondary">Test Timer</button>
+    <button id="runAIClientBtn" class="btn btn-secondary">Test AI Client</button>
+    <button id="clearBtn" class="btn btn-danger">Clear Output</button>
+  </div>
+  
+  <div class="test-section">
+    <h2>Test Output</h2>
+    <div id="output" class="test-output">Test output will appear here...</div>
+  </div>
+  
+  <script type="module">
+    import { runTests, testStorage, testTimer, testAIClient } from './test.js';
+    
+    // Override console.log to display in output div
+    const originalConsoleLog = console.log;
+    const originalConsoleError = console.error;
+    const originalConsoleWarn = console.warn;
+    const outputDiv = document.getElementById('output');
+    
+    console.log = function(...args) {
+      originalConsoleLog.apply(console, args);
+      
+      const line = args.map(arg => {
+        if (typeof arg === 'object') {
+          return JSON.stringify(arg, null, 2);
+        }
+        return String(arg);
+      }).join(' ');
+      
+      let className = '';
+      if (line.includes('✅')) className = 'success';
+      if (line.includes('⚠️')) className = 'warning';
+      if (line.includes('❌')) className = 'error';
+      
+      const lineElement = document.createElement('div');
+      lineElement.textContent = line;
+      if (className) lineElement.className = className;
+      
+      outputDiv.appendChild(lineElement);
+      outputDiv.scrollTop = outputDiv.scrollHeight;
+    };
+    
+    console.error = function(...args) {
+      originalConsoleError.apply(console, args);
+      
+      const line = args.map(arg => {
+        if (typeof arg === 'object') {
+          return JSON.stringify(arg, null, 2);
+        }
+        return String(arg);
+      }).join(' ');
+      
+      const lineElement = document.createElement('div');
+      lineElement.textContent = line;
+      lineElement.className = 'error';
+      
+      outputDiv.appendChild(lineElement);
+      outputDiv.scrollTop = outputDiv.scrollHeight;
+    };
+    
+    console.warn = function(...args) {
+      originalConsoleWarn.apply(console, args);
+      
+      const line = args.map(arg => {
+        if (typeof arg === 'object') {
+          return JSON.stringify(arg, null, 2);
+        }
+        return String(arg);
+      }).join(' ');
+      
+      const lineElement = document.createElement('div');
+      lineElement.textContent = line;
+      lineElement.className = 'warning';
+      
+      outputDiv.appendChild(lineElement);
+      outputDiv.scrollTop = outputDiv.scrollHeight;
+    };
+    
+    // Button event listeners
+    document.getElementById('runAllBtn').addEventListener('click', runTests);
+    document.getElementById('runStorageBtn').addEventListener('click', testStorage);
+    document.getElementById('runTimerBtn').addEventListener('click', testTimer);
+    document.getElementById('runAIClientBtn').addEventListener('click', testAIClient);
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      outputDiv.textContent = '';
+    });
+    
+    // Initial message
+    console.log('Test page loaded. Click a button to run tests.');
+  </script>
+</body>
+</html>

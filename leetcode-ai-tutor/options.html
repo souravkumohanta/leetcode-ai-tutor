@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeetCode AI Tutor - Options</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      color: #2196F3;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+    
+    .section {
+      margin-bottom: 30px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .section h2 {
+      margin-top: 0;
+      color: #0D47A1;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    input[type="text"],
+    input[type="url"],
+    input[type="number"],
+    input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    .phase-duration {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .phase-duration label {
+      width: 120px;
+      margin-bottom: 0;
+    }
+    
+    .phase-duration input {
+      width: 80px;
+      margin-right: 10px;
+      margin-bottom: 0;
+    }
+    
+    .phase-duration span {
+      color: #666;
+    }
+    
+    button {
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    button:hover {
+      background-color: #0b7dda;
+    }
+    
+    .status {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    
+    .success {
+      background-color: #dff0d8;
+      color: #3c763d;
+    }
+    
+    .error {
+      background-color: #f2dede;
+      color: #a94442;
+    }
+    
+    .info-text {
+      font-size: 14px;
+      color: #666;
+      margin-top: -10px;
+      margin-bottom: 15px;
+    }
+    
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>LeetCode AI Tutor - Options</h1>
+  
+  <div class="section">
+    <h2>Problem List</h2>
+    <label for="problemListUrl">Problem List URL</label>
+    <input type="url" id="problemListUrl" placeholder="https://example.com/leetcode-problems.json">
+    <p class="info-text">URL to a JSON file containing LeetCode problems. Format: {"problems": [{"url": "https://leetcode.com/problems/two-sum/", "title": "Two Sum", "difficulty": "Easy"}]}</p>
+  </div>
+  
+  <div class="section">
+    <h2>AI Configuration</h2>
+    <label for="aiEndpoint">AI Endpoint</label>
+    <input type="url" id="aiEndpoint" placeholder="http://localhost:11434 or https://api.openai.com/v1">
+    <p class="info-text">For local Ollama, use http://localhost:11434. For OpenAI, use https://api.openai.com/v1</p>
+    
+    <label for="aiModel">AI Model</label>
+    <input type="text" id="aiModel" placeholder="llama2 or gpt-3.5-turbo">
+    <p class="info-text">For Ollama, use model names like 'llama2' or 'codellama'. For OpenAI, use 'gpt-3.5-turbo' or 'gpt-4'.</p>
+    
+    <label for="apiKey">API Key (for cloud services)</label>
+    <input type="password" id="apiKey" placeholder="sk-...">
+    <p class="info-text">Leave empty for local Ollama. Required for OpenAI and other cloud services.</p>
+  </div>
+  
+  <div class="section">
+    <h2>Phase Durations</h2>
+    <p class="info-text">Set the duration for each phase in seconds.</p>
+    
+    <div class="phase-duration">
+      <label for="dUnderstand">Understand</label>
+      <input type="number" id="dUnderstand" min="60" value="300">
+      <span>(5 minutes)</span>
+    </div>
+    
+    <div class="phase-duration">
+      <label for="dPseudocode">Pseudocode</label>
+      <input type="number" id="dPseudocode" min="60" value="600">
+      <span>(10 minutes)</span>
+    </div>
+    
+    <div class="phase-duration">
+      <label for="dImplement">Implement</label>
+      <input type="number" id="dImplement" min="60" value="900">
+      <span>(15 minutes)</span>
+    </div>
+    
+    <div class="phase-duration">
+      <label for="dOptimize">Optimize</label>
+      <input type="number" id="dOptimize" min="60" value="600">
+      <span>(10 minutes)</span>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>GitHub Integration</h2>
+    <label for="ghRepo">GitHub Repository</label>
+    <input type="text" id="ghRepo" placeholder="username/repository">
+    <p class="info-text">Format: username/repository</p>
+    
+    <label for="ghToken">GitHub Personal Access Token</label>
+    <input type="password" id="ghToken" placeholder="ghp_...">
+    <p class="info-text">Token needs 'repo' scope permissions to create/update files.</p>
+  </div>
+  
+  <div class="section">
+    <h2>Quiz Schedule</h2>
+    <label for="quizCron">Quiz Schedule (Cron Expression)</label>
+    <input type="text" id="quizCron" placeholder="0 10 * * 6,0">
+    <p class="info-text">Default: 0 10 * * 6,0 (10:00 AM on weekends). Format: minute hour day-of-month month day-of-week</p>
+  </div>
+  
+  <button id="saveButton">Save Configuration</button>
+  <div id="status" class="status hidden"></div>
+  
+  <script src="options.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeetCode AI Tutor</title>
+  <style>
+    :root {
+      --primary-color: #2196F3;
+      --primary-dark: #0D47A1;
+      --secondary-color: #FF9800;
+      --success-color: #4CAF50;
+      --danger-color: #F44336;
+      --light-bg: #f9f9f9;
+      --dark-bg: #333;
+      --text-color: #333;
+      --light-text: #f9f9f9;
+      --border-color: #ddd;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+      background-color: var(--light-bg);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+      height: calc(100vh - 40px);
+    }
+    
+    .sidebar {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .main-content {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .problem-header {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .problem-title {
+      font-size: 24px;
+      margin: 0;
+      color: var(--primary-dark);
+    }
+    
+    .problem-difficulty {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .difficulty-easy {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .difficulty-medium {
+      background-color: #FF9800;
+      color: white;
+    }
+    
+    .difficulty-hard {
+      background-color: #F44336;
+      color: white;
+    }
+    
+    .timer-section {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: var(--light-bg);
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .timer-display {
+      font-size: 36px;
+      font-weight: bold;
+      color: var(--primary-dark);
+      margin: 10px 0;
+    }
+    
+    .phase-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    
+    .phase {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      border-radius: 4px;
+      background-color: var(--light-bg);
+      margin: 0 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .phase.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .phase.completed {
+      background-color: var(--success-color);
+      color: white;
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .btn {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #e68a00;
+    }
+    
+    .btn-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    
+    .btn-success:hover {
+      background-color: #3d8b40;
+    }
+    
+    .btn-danger {
+      background-color: var(--danger-color);
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      background-color: #d32f2f;
+    }
+    
+    .code-area {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .code-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0;
+    }
+    
+    textarea {
+      flex-grow: 1;
+      padding: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      resize: none;
+    }
+    
+    .ai-response {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: var(--light-bg);
+      border-radius: 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+    }
+    
+    .ai-response h3 {
+      margin-top: 0;
+      color: var(--primary-dark);
+    }
+    
+    .ai-response pre {
+      background-color: white;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    
+    .progress-section {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .progress-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .progress-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    .progress-item {
+      padding: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .progress-item:last-child {
+      border-bottom: none;
+    }
+    
+    .progress-item .problem-name {
+      font-weight: bold;
+    }
+    
+    .progress-item .timestamp {
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .loading-spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: var(--primary-color);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    /* Quiz mode styles */
+    .quiz-container {
+      padding: 20px;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="problem-header">
+        <h1 class="problem-title" id="problemTitle">Loading problem...</h1>
+        <a href="#" id="problemLink" target="_blank">View on LeetCode</a>
+        <span class="problem-difficulty" id="problemDifficulty">Medium</span>
+      </div>
+      
+      <div class="timer-section">
+        <h2 id="currentPhase">Understand</h2>
+        <div class="timer-display" id="timer">05:00</div>
+        <p>Time remaining in current phase</p>
+      </div>
+      
+      <div class="phase-indicator">
+        <div class="phase active" data-phase="understand">Understand</div>
+        <div class="phase" data-phase="pseudocode">Pseudocode</div>
+        <div class="phase" data-phase="implement">Implement</div>
+        <div class="phase" data-phase="optimize">Optimize</div>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="btn btn-primary" id="nextPhaseBtn">Next Phase</button>
+        <button class="btn btn-secondary" id="hintBtn">Get Hint</button>
+        <button class="btn btn-secondary" id="solutionBtn">Show Solution</button>
+        <button class="btn btn-success" id="solvedBtn">Mark Solved</button>
+        <button class="btn btn-danger" id="skipBtn">Skip Problem</button>
+      </div>
+      
+      <div class="progress-section">
+        <h3 class="progress-title">Recent Progress</h3>
+        <ul class="progress-list" id="progressList">
+          <!-- Progress items will be added here dynamically -->
+        </ul>
+      </div>
+    </div>
+    
+    <div class="main-content">
+      <div class="code-area">
+        <div class="code-header">
+          <h3 class="code-title" id="codeTitle">Your Solution</h3>
+        </div>
+        <textarea id="codeEditor" placeholder="Write your solution here..."></textarea>
+      </div>
+      
+      <div class="ai-response" id="aiResponse">
+        <h3>AI Guidance</h3>
+        <div id="aiResponseContent"></div>
+      </div>
+      
+      <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
+    </div>
+  </div>
+  
+  <script src="newtab.js" type="module"></script>
+</body>
+</html>

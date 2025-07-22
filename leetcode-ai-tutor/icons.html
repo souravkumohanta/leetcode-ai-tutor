@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeetCode AI Tutor - Icons</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #2196F3;
+    }
+    
+    .icon-container {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      margin: 30px 0;
+    }
+    
+    .icon-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .icon-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .icon-label {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    
+    .instructions {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    
+    .instructions ol {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+    
+    .instructions li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>LeetCode AI Tutor - Icons</h1>
+  
+  <div class="instructions">
+    <h2>How to save these icons:</h2>
+    <ol>
+      <li>Right-click on each icon</li>
+      <li>Select "Save image as..."</li>
+      <li>Save with the appropriate filename (icon16.png, icon48.png, icon128.png)</li>
+      <li>Save in the "icons" folder of your extension</li>
+    </ol>
+  </div>
+  
+  <div class="icon-container">
+    <div class="icon-row">
+      <div class="icon-box">
+        <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <rect width="16" height="16" rx="3" fill="#2196F3"/>
+          <text x="8" y="12" font-family="Arial" font-size="12" font-weight="bold" fill="white" text-anchor="middle">L</text>
+        </svg>
+        <div class="icon-label">16x16</div>
+      </div>
+      
+      <div class="icon-box">
+        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <rect width="48" height="48" rx="8" fill="#2196F3"/>
+          <text x="24" y="34" font-family="Arial" font-size="32" font-weight="bold" fill="white" text-anchor="middle">L</text>
+          <path d="M12 18L18 24L12 30" stroke="white" stroke-width="2" fill="none"/>
+          <path d="M36 18L30 24L36 30" stroke="white" stroke-width="2" fill="none"/>
+        </svg>
+        <div class="icon-label">48x48</div>
+      </div>
+      
+      <div class="icon-box">
+        <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+          <rect width="128" height="128" rx="16" fill="#2196F3"/>
+          <circle cx="64" cy="64" r="48" fill="#0D47A1"/>
+          <text x="64" y="80" font-family="Arial" font-size="64" font-weight="bold" fill="white" text-anchor="middle">L</text>
+          <path d="M32 48L48 64L32 80" stroke="white" stroke-width="4" fill="none"/>
+          <path d="M96 48L80 64L96 80" stroke="white" stroke-width="4" fill="none"/>
+        </svg>
+        <div class="icon-label">128x128</div>
+      </div>
+    </div>
+  </div>
+  
+  <h2>Alternative Icons (Code-focused)</h2>
+  
+  <div class="icon-container">
+    <div class="icon-row">
+      <div class="icon-box">
+        <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <rect width="16" height="16" rx="3" fill="#0D47A1"/>
+          <path d="M4 6L6 8L4 10" stroke="white" stroke-width="1" fill="none"/>
+          <path d="M12 6L10 8L12 10" stroke="white" stroke-width="1" fill="none"/>
+          <path d="M7 4L9 12" stroke="white" stroke-width="1" fill="none"/>
+        </svg>
+        <div class="icon-label">16x16</div>
+      </div>
+      
+      <div class="icon-box">
+        <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <rect width="48" height="48" rx="8" fill="#0D47A1"/>
+          <path d="M12 18L20 24L12 30" stroke="white" stroke-width="2" fill="none"/>
+          <path d="M36 18L28 24L36 30" stroke="white" stroke-width="2" fill="none"/>
+          <path d="M21 12L27 36" stroke="white" stroke-width="2" fill="none"/>
+        </svg>
+        <div class="icon-label">48x48</div>
+      </div>
+      
+      <div class="icon-box">
+        <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+          <rect width="128" height="128" rx="16" fill="#0D47A1"/>
+          <circle cx="64" cy="64" r="48" fill="#2196F3"/>
+          <path d="M32 48L48 64L32 80" stroke="white" stroke-width="4" fill="none"/>
+          <path d="M96 48L80 64L96 80" stroke="white" stroke-width="4" fill="none"/>
+          <path d="M56 32L72 96" stroke="white" stroke-width="4" fill="none"/>
+        </svg>
+        <div class="icon-label">128x128</div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // This script converts SVGs to downloadable PNGs when clicked
+    document.querySelectorAll('svg').forEach((svg, index) => {
+      svg.addEventListener('click', function() {
+        const size = this.getAttribute('width');
+        const svgData = new XMLSerializer().serializeToString(this);
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        
+        const img = new Image();
+        img.onload = function() {
+          ctx.drawImage(img, 0, 0);
+          const pngFile = canvas.toDataURL('image/png');
+          
+          // Create download link
+          const downloadLink = document.createElement('a');
+          downloadLink.download = `icon${size}.png`;
+          downloadLink.href = pngFile;
+          downloadLink.click();
+        };
+        
+        img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+      });
+      
+      // Add cursor pointer to indicate clickable
+      svg.style.cursor = 'pointer';
+    });
+  </script>
+</body>
+</html>
